@@ -1,2 +1,0 @@
-datauri-separator
-=================
