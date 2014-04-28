@@ -1,6 +1,6 @@
 # data-separator
 
-> Split up your Data-Uri into a separate CSS file.
+> Split up your Data-Uri (or anything else in your values) into a separate CSS file.
 
 ## Getting Started
 This plugin requires Grunt.
@@ -8,19 +8,30 @@ This plugin requires Grunt.
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install data-separator --save-dev
+npm install grunt-data-separator --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
 ```js
-grunt.loadNpmTasks('datauri-separator');
+grunt.loadNpmTasks('grunt-data-separator');
 ```
 
 ## The "dataSeparator" task
 
 ### Overview
-In your project's Gruntfile, add a section named `datauri_separator` to the data object passed into `grunt.initConfig()`.
+In version 0.1.0 you have to make sure, that your data-uri are in their own rule. i.e.:
+```css
+a.top {
+// styles for a.top
+background-repeat: no-repeat;
+}
+a.top {
+// my data uri
+background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221....");
+}
+```
+In your project's Gruntfile, add a section named `dataSeparator` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
@@ -39,20 +50,43 @@ grunt.initConfig({
 
 #### options.indicator
 Type: `String`
-Default value: `',  '`
+Default value: `'data:'`
 
-A string value that is used to do something with whatever.
+A string value that is used to set the searching value in your css.
 
 #### options.ext
 Type: `String`
-Default value: `'.'`
+Default value: `'.icons.css'`
 
-A string value that is used to do something else with whatever else.
+A string value that is used to define your css name.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to get two files which are generated to the specific folder. So if the `testing` file has the content
+
+```css
+a.top {
+background-repeat: no-repeat;
+}
+a.top {
+background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fx.....");
+}
+```
+the generated result would be that there are now two files. One which has the standard styles, the second with your data-uris:
+
+*testing.css*
+```css
+a.top {
+background-repeat: no-repeat;
+}
+```
+*testing.icons.css*
+```css
+a.top {
+background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20v.......");
+}
+```
 
 ```js
 grunt.initConfig({
@@ -66,14 +100,13 @@ grunt.initConfig({
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
 
 ```js
 grunt.initConfig({
   datauri_separator: {
     options: {
-      inidcator: 'data:',
-      ext: '.icons.css',
+      inidcator: 'myCustomValue:',
+      ext: '-myExtName.css',
     },
     files: {
       'dest/default_options': ['src/testing', 'src/123'],

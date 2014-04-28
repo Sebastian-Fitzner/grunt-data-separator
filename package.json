@@ -1,36 +1,43 @@
 {
-  "name": "data-separator",
-  "version": "0.0.1",
-  "description": "Split up your Data-URI into a separate CSS file.",
-  "homepage": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
-  "repository": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
-  "author": {
-    "name": "Sebastian Fitzner",
-    "email": "sebastian@jci-werbeagentur.com",
-    "url": "http://jci-werbeagentur.com"
-  },
-  "keywords": [
-    "gruntplugin"
-  ],
-  "main": "Gruntfile.js",
-  "engines": {
-    "node": ">= 0.8.0"
-  },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ],
-  "devDependencies": {
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.3.0",
-    "grunt": "~0.4.1",
-    "jshint-stylish": "~0.1.5",
-    "grunt-css-parse": "^0.2.0",
-    "css-parse": "^1.7.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  }
+	"name": "data-separator",
+	"version": "0.1.0",
+	"description": "Split up your Data-URI into a separate CSS file.",
+	"homepage": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
+	"repository": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
+	"author": {
+		"name": "Sebastian Fitzner",
+		"email": "sebastian@jci-werbeagentur.com",
+		"url": "http://jci-werbeagentur.com"
+	},
+	"keywords": [
+		"gruntplugin"
+	],
+	"main": "Gruntfile.js",
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"licenses": [
+		{
+			"type": "MIT"
+		}
+	],
+	"devDependencies": {
+		"grunt-contrib-clean": "~0.5.0",
+		"grunt-contrib-jshint": "~0.8.0",
+		"grunt-contrib-nodeunit": "~0.3.0",
+		"grunt": "~0.4.1",
+		"jshint-stylish": "~0.1.5",
+		"grunt-css-parse": "^0.2.0",
+		"css-parse": "^1.7.0"
+	},
+	"scripts": {
+		"test": "grunt test"
+	},
+	"keywords": [
+		"gruntplugin",
+		"dataURI",
+		"split files",
+		"split icons",
+		"optimisation"
+	]
 }
