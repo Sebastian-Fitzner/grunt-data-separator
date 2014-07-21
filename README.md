@@ -1,4 +1,4 @@
-# data-separator
+# grunt-data-separator
 
 > Split up your Data-Uri (or anything else in your values) into a separate CSS file.
 
@@ -20,7 +20,7 @@ grunt.loadNpmTasks('grunt-data-separator');
 ## The "dataSeparator" task
 
 ### Overview
-In version 0.1.0 the whole rule with a matched value will be duplicated.
+In version 0.1.* the whole rule with a matched value will be duplicated.
 
 In your project's Gruntfile, add a section named `dataSeparator` to the data object passed into `grunt.initConfig()`.
 
