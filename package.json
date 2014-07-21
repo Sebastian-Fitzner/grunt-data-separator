@@ -9,9 +9,6 @@
 		"email": "sebastian@jci-werbeagentur.com",
 		"url": "http://jci-werbeagentur.com"
 	},
-	"keywords": [
-		"gruntplugin"
-	],
 	"main": "Gruntfile.js",
 	"engines": {
 		"node": ">= 0.8.0"
@@ -25,6 +22,9 @@
 		"grunt-contrib-clean": "~0.5.0",
 		"grunt-contrib-jshint": "~0.8.0",
 		"grunt-contrib-nodeunit": "~0.3.0",
+		"grunt": "~0.4.1"
+	},
+	"peerDependencies": {
 		"grunt": "~0.4.1"
 	},
 	"scripts": {

@@ -31,7 +31,7 @@ grunt.initConfig({
 			options: {
 				pattern: {
 					match: /data/, // The RegExp to match values with
-					matchParent: true // Declarations (eg. in @media blocks) include their parent node.
+					matchParent: true // Rules (eg. in @media blocks) include their parent node.
 				},
 				output: 'tmp/styles.icons.css'
 			},

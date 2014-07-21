@@ -15,10 +15,9 @@ module.exports = function (grunt) {
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			pattern: {
-				match: false, // The RegExp to match selectors with
-				matchParent: true // Should child declarations (eg. in @media blocks) include their parent node.
+				match: false, // The RegExp to match values with
+				matchParent: true // Rules (eg. in @media blocks) include their parent node.
 			},
-			remove: true, // Should we strip the matched rules from the src style sheet?
 			output: false // output file 'false' by default
 		});
 
@@ -42,9 +41,8 @@ module.exports = function (grunt) {
 					rule.eachDecl(function (declaration) {
 
 						if (declaration._value.match(pattern.match)) {
-							if (options.remove) {
-								rule.removeSelf();
-							}
+							rule.removeSelf();
+
 							if (pattern.matchParent) {
 								parent = rule.parent.clone();
 
