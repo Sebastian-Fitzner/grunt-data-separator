@@ -20,45 +20,41 @@ grunt.loadNpmTasks('grunt-data-separator');
 ## The "dataSeparator" task
 
 ### Overview
-In version 0.1.0 you have to make sure, that your data-uri are in their own rule. i.e.:
-```css
-a.top {
-// styles for a.top
-background-repeat: no-repeat;
-}
-a.top {
-// my data uri
-background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221....");
-}
-```
+In version 0.1.0 the whole rule with a matched value will be duplicated.
+
 In your project's Gruntfile, add a section named `dataSeparator` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  datauSeparator: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+	dataSeparator: {
+		icons: {
+			options: {
+				pattern: {
+					match: /data/, // The RegExp to match selectors with
+					matchParent: true // Should child declarations (eg. in @media blocks) include their parent node.
+			},
+			output: 'tmp/styles-icons.css'
+		},
+		files: {
+			'tmp/source.css': ['test/fixtures/source.css']
+		}
+	}
 })
 ```
 
 ### Options
 
-#### options.indicator
+#### options.pattern.match
 Type: `String`
-Default value: `'data:'`
+Default value: /data:/
 
 A string value that is used to set the searching value in your css.
 
-#### options.ext
-Type: `String`
-Default value: `'.icons.css'`
+#### options.pattern.matchParent
+Type: `Boolean`
+Default value: true
 
-A string value that is used to define your css name.
+A boolean value that is used to include/exclude the rules parent node (eg. in @media blocks).
 
 ### Usage Examples
 
@@ -86,33 +82,6 @@ background-repeat: no-repeat;
 a.top {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20v.......");
 }
-```
-
-```js
-grunt.initConfig({
-  dataurSeparator: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
-
-#### Custom Options
-
-```js
-grunt.initConfig({
-  datauri_separator: {
-    options: {
-      inidcator: 'myCustomValue:',
-      ext: '-myExtName.css',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
 ```
 
 ## Contributing
