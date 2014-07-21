@@ -33,10 +33,10 @@ module.exports = function (grunt) {
 		}
 
 		// Our postCSS process
-		var process = postcss(function (css) {
+		var process = postcss(function (styles) {
 			if (pattern.match) {
-console.log("pattern", pattern.match);
-				css.eachRule(function (rule) {
+
+				styles.eachRule(function (rule) {
 					var parent;
 
 					rule.eachDecl(function (declaration) {

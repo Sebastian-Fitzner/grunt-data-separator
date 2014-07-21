@@ -32,7 +32,7 @@ module.exports = function (grunt) {
 
 		// Configuration to be run (and then tested).
 		dataSeparator: {
-			default_options: {
+			icons: {
 				options: {
 					pattern: {
 						match: /data/, // The RegExp to match selectors with
