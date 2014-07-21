@@ -30,13 +30,14 @@ grunt.initConfig({
 		icons: {
 			options: {
 				pattern: {
-					match: /data/, // The RegExp to match selectors with
-					matchParent: true // Should child declarations (eg. in @media blocks) include their parent node.
+					match: /data/, // The RegExp to match values with
+					matchParent: true // Declarations (eg. in @media blocks) include their parent node.
+				},
+				output: 'tmp/styles.icons.css'
 			},
-			output: 'tmp/styles-icons.css'
-		},
-		files: {
-			'tmp/source.css': ['test/fixtures/source.css']
+			files: {
+				'tmp/styles.css': ['test/fixtures/source.css']
+			}
 		}
 	}
 })
@@ -56,9 +57,13 @@ Default value: true
 
 A boolean value that is used to include/exclude the rules parent node (eg. in @media blocks).
 
-### Usage Examples
+#### options.output
+Type: `String`
+Default value: ''
 
-#### Default Options
+A string value which needs a path and filename (eg. in tmp/styles.icons.css).
+
+### Usage Examples
 In this example, the default options are used to get two files which are generated to the specific folder. So if the `testing` file has the content
 
 ```css
@@ -71,13 +76,13 @@ background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fx.....");
 ```
 the generated result would be that there are now two files. One which has the standard styles, the second with your data-uris:
 
-*testing.css*
+*styles.css*
 ```css
 a.top {
 background-repeat: no-repeat;
 }
 ```
-*testing.icons.css*
+*styles.icons.css*
 ```css
 a.top {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20v.......");

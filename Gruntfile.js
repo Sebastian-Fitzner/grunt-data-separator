@@ -35,13 +35,13 @@ module.exports = function (grunt) {
 			icons: {
 				options: {
 					pattern: {
-						match: /data/, // The RegExp to match selectors with
-						matchParent: true // Should child declarations (eg. in @media blocks) include their parent node.
+						match: /data/, // The RegExp to match values with
+						matchParent: true // Declarations (eg. in @media blocks) include their parent node.
 					},
-					output: 'tmp/styles-icons.css'
+					output: 'tmp/styles.icons.css'
 				},
 				files: {
-					'tmp/source.css': ['test/fixtures/source.css']
+					'tmp/styles.css': ['test/fixtures/source.css']
 				}
 			}
 		},
