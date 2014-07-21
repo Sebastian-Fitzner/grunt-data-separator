@@ -1,6 +1,6 @@
 {
 	"name": "data-separator",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Split up your Data-URI into a separate CSS file.",
 	"homepage": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
 	"repository": "https://github.com/Sebastian-Fitzner/grunt-data-separator",
