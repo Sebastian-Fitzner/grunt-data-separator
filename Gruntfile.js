@@ -35,13 +35,25 @@ module.exports = function (grunt) {
 			icons: {
 				options: {
 					pattern: {
-						match: /data/, // The RegExp to match values with
+						matchValue: /data/, // The RegExp to match values with
 						matchParent: true // Rules (eg. in @media blocks) include their parent node.
 					},
 					output: 'tmp/styles.icons.css'
 				},
 				files: {
 					'tmp/styles.css': ['test/fixtures/source.css']
+				}
+			},
+			ie: {
+				options: {
+					pattern: {
+						matchRule: /lt-ie9/, // The RegExp to match values with
+						matchParent: true // Rules (eg. in @media blocks) include their parent node.
+					},
+					output: 'tmp/styles.ie8.css'
+				},
+				files: {
+					'tmp/styles.css': ['tmp/styles.css']
 				}
 			}
 		},
@@ -58,9 +70,9 @@ module.exports = function (grunt) {
 
 	// Whenever the "test" task is run, first clean the "tmp" dir, then run this
 	// plugin's task(s), then test the result.
-	grunt.registerTask('test', ['clean', 'dataSeparator', 'nodeunit']);
+	grunt.registerTask('test', ['clean', 'jshint', 'dataSeparator', 'nodeunit']);
 
-	// By default, lint and run all tests.
-	grunt.registerTask('default', ['jshint', 'test']);
+
+	grunt.registerTask('default', ['clean', 'dataSeparator:icons', 'dataSeparator:ie']);
 
 };

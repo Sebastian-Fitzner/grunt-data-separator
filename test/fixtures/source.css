@@ -34,6 +34,10 @@ a img {
     border: none;
 }
 
+.lt-ie9 a img {
+    float: left;
+}
+
 @media only screen and (max-width: 568px) {
 
     a.media {

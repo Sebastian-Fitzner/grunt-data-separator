@@ -15,7 +15,8 @@ module.exports = function (grunt) {
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			pattern: {
-				match: false, // The RegExp to match values with
+				matchValue: /data/, // The RegExp to match values with
+				matchRule: false, // The RegExp to match values with
 				matchParent: true // Rules (eg. in @media blocks) include their parent node.
 			},
 			output: false // output file 'false' by default
@@ -31,36 +32,55 @@ module.exports = function (grunt) {
 			pattern = options.pattern;
 		}
 
+		function _matchParentMedia(parent, rule) {
+			parent = rule.parent.clone();
+
+			if ('media' === parent.name) {
+				parent.eachRule(function (childRule) {
+					childRule.removeSelf();
+				});
+				parent.append(rule);
+				modCSS.append(parent);
+			} else {
+				modCSS.append(rule);
+			}
+		}
+
 		// Our postCSS process
 		var process = postcss(function (styles) {
-			if (pattern.match) {
+			if (pattern.matchValue || pattern.matchRule) {
 
 				styles.eachRule(function (rule) {
 					var parent;
 
-					rule.eachDecl(function (declaration) {
-
-						if (declaration._value.match(pattern.match)) {
+					if (pattern.matchRule) {
+						if (rule.selector.match(pattern.matchRule)) {
 							rule.removeSelf();
 
 							if (pattern.matchParent) {
-								parent = rule.parent.clone();
+								_matchParentMedia(parent, rule);
 
-								if ('media' === parent.name) {
-									parent.eachRule(function (childRule) {
-										childRule.removeSelf();
-									});
-									parent.append(rule);
-									modCSS.append(parent);
-								} else {
-									modCSS.append(rule);
-								}
 							} else {
 								modCSS.append(rule);
 							}
 						}
-					});
+					}
 
+					if (pattern.matchValue) {
+						rule.eachDecl(function (declaration) {
+
+							if (declaration._value.match(pattern.matchValue)) {
+								rule.removeSelf();
+
+								if (pattern.matchParent) {
+									_matchParentMedia(parent, rule);
+
+								} else {
+									modCSS.append(rule);
+								}
+							}
+						});
+					}
 				});
 			}
 		});
