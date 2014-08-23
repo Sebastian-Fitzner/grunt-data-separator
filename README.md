@@ -259,7 +259,7 @@ a img {
 	}
 }
 ```
-the generated result would be that there are now two files. One which has the standard styles, the second with your data-uris:
+the generated result would be that there are now two files. One which has the standard styles, the second with your media queries:
 
 *styles.css*
 ```css
