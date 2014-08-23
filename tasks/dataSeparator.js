@@ -16,7 +16,8 @@ module.exports = function (grunt) {
 		var options = this.options({
 			pattern: {
 				matchValue: /data/, // The RegExp to match values with
-				matchRule: false, // The RegExp to match values with
+				matchRule: false, // The RegExp to match rules with
+				matchMedia: false, // The RegExp to match media queries with
 				matchParent: true // Rules (eg. in @media blocks) include their parent node.
 			},
 			output: false // output file 'false' by default
@@ -35,7 +36,7 @@ module.exports = function (grunt) {
 		function _matchParentMedia(parent, rule) {
 			parent = rule.parent.clone();
 
-			if ('media' === parent.name) {
+			if (parent.name === 'media') {
 				parent.eachRule(function (childRule) {
 					childRule.removeSelf();
 				});
@@ -48,23 +49,20 @@ module.exports = function (grunt) {
 
 		// Our postCSS process
 		var process = postcss(function (styles) {
-			if (pattern.matchValue || pattern.matchRule) {
+			if (pattern.matchValue || pattern.matchRule || pattern.matchMedia) {
+
+				if (pattern.matchMedia) {
+					styles.eachAtRule(function (atRule) {
+						if (atRule._params.match(pattern.matchMedia)) {
+							atRule.removeSelf();
+							modCSS.append(atRule);
+						}
+					});
+				}
+
 
 				styles.eachRule(function (rule) {
 					var parent;
-
-					if (pattern.matchRule) {
-						if (rule.selector.match(pattern.matchRule)) {
-							rule.removeSelf();
-
-							if (pattern.matchParent) {
-								_matchParentMedia(parent, rule);
-
-							} else {
-								modCSS.append(rule);
-							}
-						}
-					}
 
 					if (pattern.matchValue) {
 						rule.eachDecl(function (declaration) {
@@ -81,6 +79,34 @@ module.exports = function (grunt) {
 							}
 						});
 					}
+
+					if (pattern.matchRule) {
+						if (rule.selector.match(pattern.matchRule)) {
+							rule.removeSelf();
+
+							if (pattern.matchParent) {
+								_matchParentMedia(parent, rule);
+
+							} else {
+								modCSS.append(rule);
+							}
+						}
+					}
+
+					if (pattern.matchMedia) {
+						if (rule.selector.match(pattern.matchMedia)) {
+							rule.removeSelf();
+
+							if (pattern.matchParent) {
+								_matchParentMedia(parent, rule);
+
+							} else {
+								modCSS.append(rule);
+							}
+						}
+					}
+
+
 				});
 			}
 		});
@@ -96,24 +122,24 @@ module.exports = function (grunt) {
 					return true;
 				}
 			}).map(function (filepath) {
-					// Read file source.
-					var css = grunt.file.read(filepath),
-						processOptions = {},
-						output;
+				// Read file source.
+				var css = grunt.file.read(filepath),
+					processOptions = {},
+					output;
 
-					processOptions.from = filepath;
-					processOptions.to = f.dest;
+				processOptions.from = filepath;
+				processOptions.to = f.dest;
 
-					// Run the postprocessor
-					output = process.process(css, processOptions);
+				// Run the postprocessor
+				output = process.process(css, processOptions);
 
-					if (options.output && output.map && output.map.length > 0) {
-						grunt.log.writeln('Sourcemap "' + options.output + '" created.');
-						grunt.file.write(f.dest + '.map', output.map);
-					}
+				if (options.output && output.map && output.map.length > 0) {
+					grunt.log.writeln('Sourcemap "' + options.output + '" created.');
+					grunt.file.write(f.dest + '.map', output.map);
+				}
 
-					return output.css;
-				});
+				return output.css;
+			});
 
 			// Write the newly split file.
 			if (options.output) {

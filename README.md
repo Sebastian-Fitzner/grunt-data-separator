@@ -47,16 +47,22 @@ grunt.initConfig({
 ### Options
 
 #### options.pattern.matchValue
-Type: `String`
+Type: `RegExp`
 Default value: /data:/
 
 A string value that is used to set the value your are searching for in your css.
 
 #### options.pattern.matchRule
-Type: `String`
+Type: `RegExp`
 Default value: false
 
 A string value that is used to set the rule your are searching for in your css.
+
+#### options.pattern.matchMedia
+Type: `RegExp`
+Default value: false
+
+A value that is used to set the media query your are searching for in your css.
 
 #### options.pattern.matchParent
 Type: `Boolean`
@@ -122,10 +128,10 @@ grunt.initConfig({
 So if the `source.css` file has the content
 
 ```css
-.lt-ie9 a.top {
+a.top {
 background-repeat: no-repeat;
 }
-a.top {
+.lt-ie9 a.top {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fx.....");
 }
 ```
@@ -141,6 +147,204 @@ background-repeat: no-repeat;
 ```css
 .lt-ie9 a.top {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20v.......");
+}
+```
+
+#### Match Media Queries
+In this example, custom options are used to get two files which are generated to the specific folder:
+
+```js
+grunt.initConfig({
+	dataSeparator: {
+		image2x: {
+			options: {
+				pattern: {
+					matchValue: false, // The RegExp to match values with
+					matchRule: false, // The RegExp to match values with
+					matchMedia: /((min|max)-)?resolution\:\s*(\d+)?\.?(\d+)?dppx/, // The RegExp to match media queries with
+					matchParent: true // Rules (eg. in @media blocks) include their parent node.
+				},
+				output: 'tmp/styles.media.css'
+			},
+			files: {
+				'tmp/styles.css': ['test/fixtures/source.css']
+			}
+		}
+	}
+})
+```
+
+So if the `source.css` file has the content
+
+```css
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+q, blockquote {
+	quotes: none;
+}
+
+q:before, q:after, blockquote:before, blockquote:after {
+	content: "";
+	content: none;
+}
+
+a img {
+	border: none;
+}
+
+@media only screen and (max-width: 568px) {
+
+	a.media {
+		background-repeat: no-repeat;
+	}
+
+}
+
+@media print {
+}
+
+@media (width: 100px) {
+	.w-100 {
+		width: 100px;
+	}
+}
+
+@media (resolution: 2dppx) {
+	.r-2dppx {
+		width: 45px;
+	}
+}
+
+@media (min-resolution: 1dppx) {
+	.r-1dppx-min {
+		width: 45px;
+	}
+}
+
+@media (max-resolution: 1dppx) {
+	.r-1dppx-max {
+		width: 45px;
+	}
+}
+
+@media (resolution: 1.5dppx) {
+	.r-15dppx {
+		width: 45px;
+	}
+}
+
+@media (resolution: 10.786dppx) {
+	.r-10dppx {
+		width: 45px;
+	}
+}
+
+@media (resolution: .5dppx) {
+	.r-0-5dppx {
+		width: 45px;
+	}
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.3),
+(-o-min-device-pixel-ratio: 2.6/2),
+(min--moz-device-pixel-ratio: 1.3),
+(min-device-pixel-ratio: 1.3),
+(resolution: 1.3dppx) {
+	.dpr {
+		width: 45px;
+	}
+}
+```
+the generated result would be that there are now two files. One which has the standard styles, the second with your data-uris:
+
+*styles.css*
+```css
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+q, blockquote {
+	quotes: none;
+}
+
+q:before, q:after, blockquote:before, blockquote:after {
+	content: "";
+	content: none;
+}
+
+a img {
+	border: none;
+}
+
+@media only screen and (max-width: 568px) {
+
+	a.media {
+		background-repeat: no-repeat;
+	}
+
+}
+
+@media print {
+}
+
+@media (width: 100px) {
+	.w-100 {
+		width: 100px;
+	}
+}
+```
+*styles.media.css*
+```css
+@media (resolution: 2dppx) {
+	.r-2dppx {
+		width: 45px;
+	}
+}
+
+@media (min-resolution: 1dppx) {
+	.r-1dppx-min {
+		width: 45px;
+	}
+}
+
+@media (max-resolution: 1dppx) {
+	.r-1dppx-max {
+		width: 45px;
+	}
+}
+
+@media (resolution: 1.5dppx) {
+	.r-15dppx {
+		width: 45px;
+	}
+}
+
+@media (resolution: 10.786dppx) {
+	.r-10dppx {
+		width: 45px;
+	}
+}
+
+@media (resolution: .5dppx) {
+	.r-0-5dppx {
+		width: 45px;
+	}
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.3),
+(-o-min-device-pixel-ratio: 2.6/2),
+(min--moz-device-pixel-ratio: 1.3),
+(min-device-pixel-ratio: 1.3),
+(resolution: 1.3dppx) {
+	.dpr {
+		width: 45px;
+	}
 }
 ```
 

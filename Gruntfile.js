@@ -48,9 +48,24 @@ module.exports = function (grunt) {
 				options: {
 					pattern: {
 						matchRule: /lt-ie9/, // The RegExp to match values with
+						matchMedia: false, // The RegExp to match media queries with
 						matchParent: true // Rules (eg. in @media blocks) include their parent node.
 					},
 					output: 'tmp/styles.ie8.css'
+				},
+				files: {
+					'tmp/styles.css': ['tmp/styles.css']
+				}
+			},
+			image2x: {
+				options: {
+					pattern: {
+						matchValue: false, // The RegExp to match values with
+						matchRule: false, // The RegExp to match values with
+						matchMedia: /((min|max)-)?resolution\:\s*(\d+)?\.?(\d+)?dppx/, // The RegExp to match media queries with
+						matchParent: false // Rules (eg. in @media blocks) include their parent node.
+					},
+					output: 'tmp/styles.media.css'
 				},
 				files: {
 					'tmp/styles.css': ['tmp/styles.css']
@@ -73,6 +88,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['clean', 'jshint', 'dataSeparator', 'nodeunit']);
 
 
-	grunt.registerTask('default', ['clean', 'dataSeparator:icons', 'dataSeparator:ie']);
+	grunt.registerTask('default', ['clean', 'dataSeparator:icons', 'dataSeparator:ie', 'dataSeparator:image2x']);
 
 };
