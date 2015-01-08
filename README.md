@@ -31,6 +31,7 @@ grunt.initConfig({
 			options: {
 				pattern: {
 					matchValue: /data/, // The RegExp to match values with
+					matchProp: false, // The RegExp to match properties with
 					matchRule: false, // The RegExp to match values with
 					matchParent: true // Rules (eg. in @media blocks) include their parent node.
 				},
