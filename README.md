@@ -52,6 +52,12 @@ Default value: /data:/
 
 A string value that is used to set the value your are searching for in your css.
 
+#### options.pattern.matchProp
+Type: `RegExp`
+Default value: /background-image/
+
+A string value that is used to set the property your are searching for in your css.
+
 #### options.pattern.matchRule
 Type: `RegExp`
 Default value: false
