@@ -44,6 +44,19 @@ module.exports = function (grunt) {
 					'tmp/styles.css': ['test/fixtures/source.css']
 				}
 			},
+			prop: {
+				options: {
+					pattern: {
+						matchValue: false, // The RegExp to match values with
+						matchProp: /background-image/, // The RegExp to match values with
+						matchParent: true // Rules (eg. in @media blocks) include their parent node.
+					},
+					output: 'tmp/styles.prop.css'
+				},
+				files: {
+					'tmp/styles.css': ['test/fixtures/source.css']
+				}
+			},
 			ie: {
 				options: {
 					pattern: {
@@ -88,6 +101,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['clean', 'jshint', 'dataSeparator', 'nodeunit']);
 
 
-	grunt.registerTask('default', ['clean', 'dataSeparator:icons', 'dataSeparator:ie', 'dataSeparator:image2x']);
+	grunt.registerTask('default', ['clean', 'dataSeparator:icons', 'dataSeparator:prop', 'dataSeparator:ie', 'dataSeparator:image2x']);
 
 };

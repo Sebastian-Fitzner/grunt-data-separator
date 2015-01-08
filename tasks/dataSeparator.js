@@ -16,6 +16,7 @@ module.exports = function (grunt) {
 		var options = this.options({
 			pattern: {
 				matchValue: /data/, // The RegExp to match values with
+				matchProp: false, // The RegExp to match rules with
 				matchRule: false, // The RegExp to match rules with
 				matchMedia: false, // The RegExp to match media queries with
 				matchParent: true // Rules (eg. in @media blocks) include their parent node.
@@ -49,7 +50,7 @@ module.exports = function (grunt) {
 
 		// Our postCSS process
 		var process = postcss(function (styles) {
-			if (pattern.matchValue || pattern.matchRule || pattern.matchMedia) {
+			if (pattern.matchValue || pattern.matchProp || pattern.matchRule || pattern.matchMedia) {
 
 				if (pattern.matchMedia) {
 					styles.eachAtRule(function (atRule) {
@@ -68,6 +69,22 @@ module.exports = function (grunt) {
 						rule.eachDecl(function (declaration) {
 
 							if (declaration._value.match(pattern.matchValue)) {
+								rule.removeSelf();
+
+								if (pattern.matchParent) {
+									_matchParentMedia(parent, rule);
+
+								} else {
+									modCSS.append(rule);
+								}
+							}
+						});
+					}
+
+					if (pattern.matchProp) {
+						rule.eachDecl(function (declaration) {
+
+							if (declaration.prop.match(pattern.matchProp)) {
 								rule.removeSelf();
 
 								if (pattern.matchParent) {
