@@ -1,4 +1,6 @@
-# grunt-data-separator
+# grunt-data-separator (deprecated)
+
+**Please use [grunt-postcss-separator](https://github.com/Sebastian-Fitzner/grunt-postcss-separator).**
 
 > Split up your Data-URI (or anything else) into a separate CSS file.
 
